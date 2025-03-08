@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   php-apache:
     build:
@@ -9,8 +7,4 @@ services:
       - "80:80"
     volumes:
       - .:/var/www/html
-    env_file:
-      - .env
-    # Add environment variables if needed
-    # environment:
-    #   - VARIABLE_NAME=value
+
