@@ -22,8 +22,8 @@ COPY apache.conf /etc/apache2/sites-available/000-default.conf
 # Enable Apache modules
 RUN a2enmod rewrite
 
-# Set Apache to bind to IP address 0.0.0.0
-# RUN echo "Listen 0.0.0.0:80" >> /etc/apache2/apache2.conf
+# Ensure proper file permissions (if needed)
+RUN chown -R www-data:www-data /var/www/html
 
 # Expose port 80 to allow incoming connections to the container
-EXPOSE 5401
+EXPOSE 80
