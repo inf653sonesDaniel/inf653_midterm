@@ -67,3 +67,15 @@ VALUES
     ('"The key to happiness is the acceptance of life’s imperfections." – Nora Roberts', 14, 5),  -- Nora Roberts, Romance
     ('"Love is an endless act of forgiveness." – Nicholas Sparks', 15, 5),  -- Nicholas Sparks, Romance
     ('"True love is not about perfection, it’s about accepting each other’s flaws." – Julia Quinn', 16, 5);  -- Julia Quinn, Romance
+
+    ('"It’s not the size of the dog in the fight, it’s the size of the fight in the dog." – Mark Twain', 1, 1),  -- Agatha Christie, Mystery
+    ('"Two things are infinite: the universe and human stupidity; and I’m not sure about the universe." – Albert Einstein', 2, 1),  -- Arthur Conan Doyle, Mystery
+    ('"I have lived with several Zen masters — all of them cats." – Eckhart Tolle', 3, 1),  -- Raymond Chandler, Mystery
+
+    ('"There is no friend as loyal as a book." – Ernest Hemingway', 4, 2),  -- Stephen King, Horror
+    ('"The world is full of magical things patiently waiting for our wits to grow sharper." – Bertrand Russell', 5, 2),  -- H.P. Lovecraft, Horror
+    ('"I am not afraid of storms, for I am learning how to sail my ship." – Louisa May Alcott', 6, 2),  -- Shirley Jackson, Horror
+
+    ('"Do not go where the path may lead, go instead where there is no path and leave a trail." – Ralph Waldo Emerson', 7, 3),  -- Isaac Asimov, Science Fiction
+    ('"To boldly go where no man has gone before." – Gene Roddenberry', 8, 3),  -- Ursula K. Le Guin, Science Fiction
+    ('"The only way to do great work is to love what you do." – Steve Jobs', 9, 3);  -- Philip K. Dick, Science Fiction

@@ -16,6 +16,7 @@ services:
       - DB_PASS=${DB_PASS}
     depends_on:
       - db
+    command: ["./wait-for-it.sh", "db:5432", "--", "docker-php-entrypoint", "apache2-foreground"]
 
   db:
     image: postgres:13
