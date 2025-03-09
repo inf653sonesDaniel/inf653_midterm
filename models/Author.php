@@ -57,7 +57,7 @@
 
       // set properties
       $this->id = $row['id'];
-      $this->name = $row['author'];
+      $this->author = $row['author'];
   }
 
   // Create author
