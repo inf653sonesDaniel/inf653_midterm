@@ -1,0 +1,17 @@
+{
+    "name": "dsone/inf653_midterm",
+    "autoload": {
+        "psr-4": {
+            "Dsone\\Inf653Midterm\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Daniel Sones",
+            "email": "djsones@mail.fhsu.edu"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
+    }
+}
