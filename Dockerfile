@@ -26,4 +26,4 @@ RUN a2enmod rewrite
 # RUN echo "Listen 0.0.0.0:80" >> /etc/apache2/apache2.conf
 
 # Expose port 80 to allow incoming connections to the container
-EXPOSE 80
+EXPOSE 5401
