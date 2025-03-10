@@ -18,7 +18,6 @@
   $data = json_decode(file_get_contents("php://input"));
 
   $author->author = $data->author;
-  $author->id = $data->id;
 
   // Create Author
   if($author->create()) {
