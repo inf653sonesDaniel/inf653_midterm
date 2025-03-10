@@ -1,7 +1,5 @@
 <?php
 
-use Dotenv\Dotenv;
-
 class Database {
   // DB Params (use environment variables)
   private $host;
