@@ -17,6 +17,12 @@ class Database {
     $this->port = getenv('PORT');
   }
 
+echo 'DB_HOST: ' . getenv('HOST') . '<br>';
+echo 'DB_PORT: ' . getenv('PORT') . '<br>';
+echo 'DB_USERNAME: ' . getenv('USERNAME') . '<br>';
+echo 'DB_PASSWORD: ' . getenv('PASSWORD') . '<br>';
+echo 'DB_NAME: ' . getenv('DBNAME') . '<br>';
+
   // DB Connect
   public function connect() {
     if ($this->conn){
