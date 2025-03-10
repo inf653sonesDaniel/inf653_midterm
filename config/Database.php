@@ -11,7 +11,7 @@ class Database {
 
   public function __construct(){
     $this->username = getenv('USERNAME');
-    $this->passoword = getenv('PASSWORD');
+    $this->password = getenv('PASSWORD');
     $this->db_name = getenv('DBNAME');
     $this->host = getenv('HOST');
     $this->port = getenv('PORT');
