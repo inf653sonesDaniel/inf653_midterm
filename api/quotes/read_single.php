@@ -16,17 +16,24 @@ $quote = new Quote($db);
 // Get ID
 $quote->id = isset($_GET['id']) ? $_GET['id'] : die();
 
-// Get single quote
-$quote->read_single();
+// Get the quote
+$result = $quote->read_single();
 
-// Create array
-$quote_arr = array(
-    'id' => $quote->id,
-    'quote' => $quote->quote,
-    'author' => $quote->author_name, // Return author name
-    'category' => $quote->category_name // Return category name
-);
-
-// Make JSON
-echo json_encode($quote_arr);
+// Check if result is an array (error message)
+if (is_array($result) && isset($result['message'])) {
+    // Output the message if quote was not found
+    echo json_encode(array('message' => $result['message']));
+} else {
+    // Output quote data if found
+    echo json_encode(
+        array(
+            'id' => $quote->id,
+            'quote' => $quote->quote,
+            'author_id' => $quote->author_id,
+            'category_id' => $quote->category_id,
+            'author_name' => $quote->author_name,
+            'category_name' => $quote->category_name
+        )
+    );
+}
 ?>

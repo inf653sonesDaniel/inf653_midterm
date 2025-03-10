@@ -22,7 +22,7 @@
       FROM
         ' . $this->table . '
       ORDER BY
-        created_at DESC';
+        id';
 
       // Prepare statement
       $stmt = $this->conn->prepare($query);
@@ -42,7 +42,8 @@
         FROM
           ' . $this->table . '
       WHERE id = ?
-      LIMIT 0,1';
+      LIMIT 1
+      OFFSET 0';
 
       //Prepare statement
       $stmt = $this->conn->prepare($query);
@@ -53,11 +54,17 @@
       // Execute query
       $stmt->execute();
 
+      // Fetch the row
       $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-      // set properties
-      $this->id = $row['id'];
-      $this->category = $row['category'];
+      // Check if category was found
+      if($row) {
+        $this->id = $row['id'];
+        $this->category = $row['category'];
+        return $this;
+      } else {
+        return array('message' => 'Category ID not found');
+      }
   }
 
   // Create Category

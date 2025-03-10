@@ -32,7 +32,7 @@
                   LEFT JOIN authors a ON q.author_id = a.id
                   LEFT JOIN categories c ON q.category_id = c.id
                   ORDER BY
-                    q.id DESC';
+                    q.id';
   
             // Prepare statement
             $stmt = $this->conn->prepare($query);
@@ -58,7 +58,8 @@
                   LEFT JOIN authors a ON q.author_id = a.id
                   LEFT JOIN categories c ON q.category_id = c.id
                   WHERE q.id = ?
-                  LIMIT 0,1';
+                  LIMIT 1
+                  OFFSET 0';
 
             //Prepare statement
             $stmt = $this->conn->prepare($query);
@@ -69,15 +70,23 @@
             // Execute query
             $stmt->execute();
 
+            // Fetch the row
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            // set properties
-            $this->id = $row['id'];
-            $this->quote = $row['quote'];
-            $this->author_id = $row['author_id'];
-            $this->category_id = $row['category_id'];
-            $this->author_name = $row['author_name'];
-            $this->category_name = $row['category_name'];
+            // Check if quote was found
+            if ($row) {
+                // set properties
+                $this->id = $row['id'];
+                $this->quote = $row['quote'];
+                $this->author_id = $row['author_id'];
+                $this->category_id = $row['category_id'];
+                $this->author_name = $row['author_name'];
+                $this->category_name = $row['category_name'];
+                return $this; // Return the quote object
+            } else {
+                // If no quote is found, return a message
+                return array('message' => 'Quote ID not found');
+            }
         }
 
         // Create a New Quote

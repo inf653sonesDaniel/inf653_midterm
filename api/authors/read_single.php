@@ -19,11 +19,27 @@
   // Get Author
   $author->read_single();
 
+  // Get the author
+  $result = $author->read_single();
+
+  // Check if result contains an array (error message)
+  if (is_array($result) && isset($result['message'])) {
+    // Output the message if no author was found
+    echo json_encode(array('message' => $result['message']));
+  } else {
+    // Output author data if found
+    echo json_encode(
+        array(
+            'id' => $author->id,
+            'author' => $author->author
+        )
+    );
+  }
   // Create array
-  $post_arr = array(
-    'id' => $author->id,
-    'author' => $author->author
-  );
+  //$post_arr = array(
+  //  'id' => $author->id,
+  //  'author' => $author->author
+  //);
 
   // Make JSON
-  echo json_encode($post_arr);
+  //echo json_encode($post_arr);

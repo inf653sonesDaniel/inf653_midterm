@@ -16,14 +16,19 @@
   // Get ID
   $categories->id = isset($_GET['id']) ? $_GET['id'] : die();
 
-  // Get Category
-  $categories->read_single();
+  // Get the author
+  $result = $categories->read_single();
 
-  // Create array
-  $categories_arr = array(
-    'id' => $categories->id,
-    'category' => $categories->category
-  );
-
-  // Make JSON
-  print_r(json_encode($categories_arr));
+  // Check if result contains an array (error message)
+  if (is_array($result) && isset($result['message'])) {
+    // Output the message if no author was found
+    echo json_encode(array('message' => $result['message']));
+  } else {
+    // Output author data if found
+    echo json_encode(
+        array(
+            'id' => $categories->id,
+            'category' => $categories->category
+        )
+    );
+  }
