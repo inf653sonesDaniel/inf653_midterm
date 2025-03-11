@@ -42,8 +42,7 @@
           FROM
             ' . $this->table . '
         WHERE id = ?
-        LIMIT 1
-        OFFSET 0';
+        LIMIT 1';
 
       //Prepare statement
       $stmt = $this->conn->prepare($query);
