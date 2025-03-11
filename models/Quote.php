@@ -81,14 +81,14 @@
         // Get all quotes with author and category names
         public function read() {
             $query = 'SELECT 
-                        quotes.id,
-                        quotes.quote,
-                        authors.name AS author_name,
-                        categories.name AS category_name
-                      FROM ' . $this->table . ' 
-                      LEFT JOIN authors ON quotes.author_id = authors.id
-                      LEFT JOIN categories ON quotes.category_id = categories.id
-                      ORDER BY quotes.id';
+                quotes.id,
+                quotes.quote,
+                authors.author AS author_name,
+                categories.category AS category_name
+              FROM ' . $this->table . ' 
+              LEFT JOIN authors ON quotes.author_id = authors.id
+              LEFT JOIN categories ON quotes.category_id = categories.id
+              ORDER BY quotes.id';
     
             // Prepare statement
             $stmt = $this->conn->prepare($query);
@@ -104,31 +104,36 @@
             $query = 'SELECT 
                         quotes.id,
                         quotes.quote,
-                        authors.name AS author_name,
-                        categories.name AS category_name
+                        authors.author AS author_name,  -- Correct column for author
+                        categories.category AS category_name  -- Correct column for category
                       FROM ' . $this->table . ' 
                       LEFT JOIN authors ON quotes.author_id = authors.id
                       LEFT JOIN categories ON quotes.category_id = categories.id
-                      WHERE quotes.id = ?
+                      WHERE quotes.id = ? 
                       LIMIT 1';
-    
+        
             $stmt = $this->conn->prepare($query);
-    
+            
+            // Bind the id
             $stmt->bindParam(1, $this->id);
-    
+        
+            // Execute the query
             $stmt->execute();
-    
+        
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+        
             if ($row) {
+                // Populate the class properties with fetched data
                 $this->quote = $row['quote'];
                 $this->author_name = $row['author_name'];
                 $this->category_name = $row['category_name'];
+                
                 return $this;
             } else {
                 return null; // No quote found
             }
         }
+        
     
         // Create quote
         public function create() {
