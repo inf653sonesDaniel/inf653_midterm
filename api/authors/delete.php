@@ -18,15 +18,24 @@
   // Get raw posted data
   $data = json_decode(file_get_contents("php://input"));
 
-  // Set ID to update
-  $author->author = $data->author;
-  $author->id = $data->id;
+  // Ensure the id is set
+  if (isset($data->id)) {
+    // Set ID for deletion
+    $author->id = $data->id;
 
-  // Delete author
-  if ($author->delete()) {
-    echo json_encode(array('message' => 'Author Deleted'));
+    // First, check if the author exists in the authors table
+    if (!$author->authorExists()) {
+        // If the author doesn't exist, return an error message
+        echo json_encode(array('message' => 'Author Not Found'));
+    } else {
+        // If the author exists, check if the author is being used in any quotes
+        if ($author->delete()) {
+            echo json_encode(array('message' => 'Author Deleted'));
+        } else {
+            echo json_encode(array('message' => 'Author cannot be deleted because it is in use by quotes.'));
+        }
+    }
   } else {
-    echo json_encode(array('message' => 'Author cannot be deleted because it is in use by quotes.'));
+    echo json_encode(array('message' => 'Missing required data (ID)'));
   }
-
-
+  ?>

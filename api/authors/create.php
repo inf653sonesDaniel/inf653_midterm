@@ -17,15 +17,23 @@
   // Get raw posted data
   $data = json_decode(file_get_contents("php://input"));
 
-  $author->author = $data->author;
+  // Check if the 'author' field is set in the input data
+  if (isset($data->author)) {
+    $author->author = $data->author;
 
-  // Create Author
-  if($author->create()) {
-    echo json_encode(
-      array('message' => 'Author Created')
-    );
+    // Create Author
+    if ($author->create()) {
+      echo json_encode(
+        array('message' => 'Author Created')
+      );
+    } else {
+      echo json_encode(
+        array('message' => 'Author Not Created')
+      );
+    }
   } else {
     echo json_encode(
-      array('message' => 'Author Not Created')
+      array('message' => 'No author data provided')
     );
   }
+?>

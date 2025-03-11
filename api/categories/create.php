@@ -11,22 +11,24 @@
   $database = new Database();
   $db = $database->connect();
 
-  // Instantiate categories object
-  $categories = new Category($db);
+  // Instantiate category object
+  $category = new Category($db);
 
   // Get raw posted data
   $data = json_decode(file_get_contents("php://input"));
 
-  $categories->categories = $data->categories;
-  $categories->id = $data->id;
+  // Ensure the category is set
+  if (isset($data->category)) {
+    // Set category property for creation
+    $category->category = $data->category;
 
-  // Create Category
-  if($categories->create()) {
-    echo json_encode(
-      array('message' => 'Category Created')
-    );
+    // Create the category
+    if ($category->create()) {
+        echo json_encode(array('message' => 'Category Created'));
+    } else {
+        echo json_encode(array('message' => 'Category Not Created'));
+    }
   } else {
-    echo json_encode(
-      array('message' => 'Category Not Created')
-    );
+    echo json_encode(array('message' => 'Missing required data (Category name)'));
   }
+?>

@@ -13,23 +13,28 @@
   $db = $database->connect();
 
   // Instantiate blog post object
-  $categories = new Category($db);
+  $category = new Category($db);
 
   // Get raw posted data
   $data = json_decode(file_get_contents("php://input"));
 
-  // Set ID to update
-  $categories->id = $data->id;
-  $categories->category = $data->category;
+  // Ensure the id and category are set
+  if (isset($data->id) && isset($data->category)) {
+    // Set ID and category for update
+    $category->id = $data->id;
+    $category->category = $data->category;
 
-  // Update post
-  if($categories->update()) {
-    echo json_encode(
-      array('message' => 'Category Updated')
-    );
+    // Update Category
+    if ($category->update()) {
+        echo json_encode(
+            array('message' => 'Category Updated')
+        );
+    } else {
+        echo json_encode(
+            array('message' => 'Category Not Found or Update Failed')
+        );
+    }
   } else {
-    echo json_encode(
-      array('message' => 'Category Not Updated')
-    );
+    echo json_encode(array('message' => 'Missing required data (ID or category)'));
   }
-
+?>
