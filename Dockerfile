@@ -12,8 +12,6 @@ WORKDIR /var/www/html
 # Copy the current directory contents into the container at /var/www/html
 COPY . /var/www/html
 
-# Copy the .htaccess file to the document root
-COPY .htaccess /var/www/html/
 
 # Install PHP extensions and enable them
 RUN docker-php-ext-install pdo_pgsql
