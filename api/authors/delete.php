@@ -38,4 +38,4 @@
   } else {
     echo json_encode(array('message' => 'Missing required data (ID)'));
   }
-  ?>
+?>

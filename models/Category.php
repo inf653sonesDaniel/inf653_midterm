@@ -94,7 +94,6 @@
       return false;
     }
 
-
     // Update category
     public function update() {
       // First, check if the category with the given id exists
@@ -142,7 +141,6 @@
           return false;  // Category not found
       }
     }
-
 
     // Delete category
     public function delete() {
@@ -210,3 +208,4 @@
       }
     }
   }
+?>

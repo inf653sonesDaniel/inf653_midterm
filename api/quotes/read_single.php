@@ -13,27 +13,25 @@
     // Instantiate Quote object
     $quote = new Quote($db);
 
-    // Get ID
-    $quote->id = isset($_GET['id']) ? $_GET['id'] : die();
+    // Get quote ID from query parameter
+    $quote->id = isset($_GET['id']) ? $_GET['id'] : die(json_encode(array('message' => 'Quote ID is required')));
 
     // Get the quote
-    $result = $quote->read_single();
+    $quote_item = $quote->read_single();
 
-    // Check if the result is valid (object)
-    if ($result) {
-        // Output the response with author_name and category_name only
+    // Check if quote is found
+    if ($quote_item) {
         echo json_encode(
             array(
-                'id' => $quote->id,
-                'quote' => $quote->quote,
-                'author_name' => $quote->author_name,
-                'category_name' => $quote->category_name
+                'id' => $quote_item->id,
+                'quote' => $quote_item->quote,
+                'author' => $quote_item->author_name,
+                'category' => $quote_item->category_name
             )
         );
     } else {
-        // If no quote found, output a message
         echo json_encode(
-            array('message' => 'Quote not found')
+            array('message' => 'No Quote Found')
         );
     }
 ?>

@@ -35,11 +35,4 @@
         )
     );
   }
-  // Create array
-  //$post_arr = array(
-  //  'id' => $author->id,
-  //  'author' => $author->author
-  //);
-
-  // Make JSON
-  //echo json_encode($post_arr);
+?>

@@ -78,24 +78,55 @@
             return $stmt->rowCount() > 0;
         }
     
-        // Get all quotes with author and category names
+        // Get quotes with author and category names, optionally filtered by author_id and category_id
         public function read() {
+            // Start building the base query
             $query = 'SELECT 
-                quotes.id,
-                quotes.quote,
-                authors.author AS author_name,
-                categories.category AS category_name
-              FROM ' . $this->table . ' 
-              LEFT JOIN authors ON quotes.author_id = authors.id
-              LEFT JOIN categories ON quotes.category_id = categories.id
-              ORDER BY quotes.id';
-    
-            // Prepare statement
+                        quotes.id,
+                        quotes.quote,
+                        authors.author AS author_name,
+                        categories.category AS category_name
+                    FROM ' . $this->table . ' 
+                    LEFT JOIN authors ON quotes.author_id = authors.id
+                    LEFT JOIN categories ON quotes.category_id = categories.id';
+
+            // Array to hold filter conditions
+            $conditions = array();
+            
+            // Add filtering by author_id if provided
+            if (!empty($this->author_id)) {
+                $conditions[] = 'quotes.author_id = :author_id';
+            }
+
+            // Add filtering by category_id if provided
+            if (!empty($this->category_id)) {
+                $conditions[] = 'quotes.category_id = :category_id';
+            }
+
+            // If there are conditions, append them to the query
+            if (count($conditions) > 0) {
+                $query .= ' WHERE ' . implode(' AND ', $conditions);
+            }
+
+            // Add ORDER BY clause
+            $query .= ' ORDER BY quotes.id';
+
+            // Prepare the query
             $stmt = $this->conn->prepare($query);
-    
-            // Execute query
+
+            // Bind parameters if author_id is set
+            if (!empty($this->author_id)) {
+                $stmt->bindParam(':author_id', $this->author_id);
+            }
+
+            // Bind parameters if category_id is set
+            if (!empty($this->category_id)) {
+                $stmt->bindParam(':category_id', $this->category_id);
+            }
+
+            // Execute the query
             $stmt->execute();
-    
+
             return $stmt;
         }
     
@@ -127,13 +158,11 @@
                 $this->quote = $row['quote'];
                 $this->author_name = $row['author_name'];
                 $this->category_name = $row['category_name'];
-                
                 return $this;
             } else {
                 return null; // No quote found
             }
         }
-        
     
         // Create quote
         public function create() {
