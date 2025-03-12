@@ -12,18 +12,23 @@ WORKDIR /var/www/html
 # Copy the current directory contents into the container at /var/www/html
 COPY . /var/www/html
 
+# Copy the .htaccess file to the document root
+COPY .htaccess /var/www/html/
+
 # Install PHP extensions and enable them
 RUN docker-php-ext-install pdo_pgsql
 
 # Copy custom Apache configuration
 COPY apache.conf /etc/apache2/sites-available/000-default.conf
 
-
 # Enable Apache modules
 RUN a2enmod rewrite
 
-# Ensure proper file permissions (if needed)
-RUN chown -R www-data:www-data /var/www/html
+# Set Apache to bind to IP address 0.0.0.0
+# RUN echo "Listen 0.0.0.0:80" >> /etc/apache2/apache2/conf
 
 # Expose port 80 to allow incoming connections to the container
 EXPOSE 80
+
+# Start Apache in the foreground
+CMD ["apache2-foreground"]
