@@ -29,9 +29,9 @@
 
     // Get quotes with the applied filters (or all quotes if no filters are set)
     if (!empty($filters)) {
-        $stmt = $quote->read_filtered(); // Assuming read_filtered() handles filtered queries
+        $stmt = $quote->read_(); //
     } else {
-        $stmt = $quote->read();  // Assuming read() fetches all quotes if no filters are set
+        $stmt = $quote->read();  //
     }
 
     $num = $stmt->rowCount();
