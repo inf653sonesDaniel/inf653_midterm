@@ -16,24 +16,14 @@
     $method = $_SERVER['REQUEST_METHOD'];
     
     // Clean URI path to handle routing
-    $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH); // Get path without query string
+    $request = rtrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');// Get path without query string
     $query_params = $_GET; // Get the query parameters (author_id, category_id, id, etc.)
 
     switch ($method) {
         case 'GET':
             if ($request === '/api/quotes') {
-                // If 'id' is provided, fetch a single quote
-                if (isset($query_params['id'])) {
-                    require __DIR__ . '/read_single.php';
-                } else {
-                    // If no 'id' is provided, check for 'author_id' or 'category_id'
-                    if (isset($query_params['author_id']) || isset($query_params['category_id'])) {
-                        require __DIR__ . '/read.php';  // Pass to read.php to handle filtering
-                    } else {
-                        // If no parameters are provided, fetch all quotes
-                        require __DIR__ . '/read.php';
-                    }
-                }
+                // Simplify the logic for now
+                require __DIR__ . '/read.php';  // Just try fetching all quotes
             } else {
                 // If no valid route is matched
                 http_response_code(404);
