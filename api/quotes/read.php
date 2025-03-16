@@ -13,62 +13,49 @@
     // Instantiate Quote object
     $quote = new Quote($db);
 
-    // Check if the 'id' parameter is provided (for fetching a specific quote)
-    if (isset($_GET['id'])) {
-        $quote->id = $_GET['id']; // Set the ID to fetch a specific quote
-        $stmt = $quote->read_single(); // Assuming read_single() method fetches a single quote by ID
-        $num = $stmt ? 1 : 0; // If a quote is found, num should be 1
-    } else {
-        // Check if author_id or category_id is provided (for filtering quotes)
-        if (isset($_GET['author_id'])) {
-            $quote->author_id = $_GET['author_id'];
-        }
-        if (isset($_GET['category_id'])) {
-            $quote->category_id = $_GET['category_id'];
-        }
+    // Initialize filtering variables
+    $filters = [];
 
-        // Get quotes (filtered or all)
-        $stmt = $quote->read(); // Assuming read() fetches quotes
-        $num = $stmt->rowCount(); // Number of quotes fetched
+    // Check if author_id or category_id is provided (for filtering)
+    if (isset($_GET['author_id'])) {
+        $quote->author_id = $_GET['author_id'];  // Set author_id for filtering
+        $filters['author_id'] = $_GET['author_id'];  // Add to filter list
     }
 
-    // Check if any quotes or a specific quote is found
+    if (isset($_GET['category_id'])) {
+        $quote->category_id = $_GET['category_id'];  // Set category_id for filtering
+        $filters['category_id'] = $_GET['category_id'];  // Add to filter list
+    }
+
+    // Get quotes with the applied filters (or all quotes if no filters are set)
+    if (!empty($filters)) {
+        $stmt = $quote->read_filtered(); // Assuming read_filtered() handles filtered queries
+    } else {
+        $stmt = $quote->read();  // Assuming read() fetches all quotes if no filters are set
+    }
+
+    $num = $stmt->rowCount();
+
     if ($num > 0) {
         $quotes_arr = array();
         $quotes_arr['data'] = array();
 
-        if (isset($quote->id)) { // If the ID is set (single quote)
-            // Process the single quote
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        // Fetch quotes and structure the response
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             extract($row);
-
             $quote_item = array(
                 'id' => $id,
                 'quote' => $quote,
-                'author' => $author_name, // Assuming the quote object has this field
-                'category' => $category_name // Assuming the quote object has this field
+                'author' => $author_name,  // Assuming author_name is available in the data
+                'category' => $category_name  // Assuming category_name is available in the data
             );
-
             array_push($quotes_arr['data'], $quote_item);
-        } else { // If it's multiple quotes (filtered or all)
-            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                extract($row);
-                
-                $quote_item = array(
-                    'id' => $id,
-                    'quote' => $quote,
-                    'author' => $author_name, // Assuming the quote object has this field
-                    'category' => $category_name // Assuming the quote object has this field
-                );
-
-                array_push($quotes_arr['data'], $quote_item);
-            }
         }
 
-        // Ensure the response is valid JSON
+        // Return the list of quotes in JSON format
         echo json_encode($quotes_arr);
     } else {
-        // Return an appropriate message if no quotes found
+        // Return a message if no quotes were found
         echo json_encode(array('message' => 'No Quotes Found'));
     }
 ?>

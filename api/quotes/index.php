@@ -22,22 +22,17 @@
     switch ($method) {
         case 'GET':
             if ($request === '/api/quotes') {
-                // Check if query parameters (author_id, category_id, id) are set
+                // If 'id' is provided, fetch a single quote
                 if (isset($query_params['id'])) {
-                    // If 'id' is set, fetch a single quote
                     require __DIR__ . '/read_single.php';
-                } elseif (isset($query_params['author_id'])) {
-                    // If 'author_id' is set, fetch quotes by author
-                    require __DIR__ . '/read_by_author.php';
-                } elseif (isset($query_params['category_id'])) {
-                    // If 'category_id' is set, fetch quotes by category
-                    require __DIR__ . '/read_by_category.php';
-                } elseif (isset($query_params['author_id']) && isset($query_params['category_id'])) {
-                    // If both 'author_id' and 'category_id' are set, fetch quotes by both
-                    require __DIR__ . '/read_by_author_and_category.php';
                 } else {
-                    // Default behavior: return all quotes (min 25)
-                    require __DIR__ . '/read.php';
+                    // If no 'id' is provided, check for 'author_id' or 'category_id'
+                    if (isset($query_params['author_id']) || isset($query_params['category_id'])) {
+                        require __DIR__ . '/read.php';  // Pass to read.php to handle filtering
+                    } else {
+                        // If no parameters are provided, fetch all quotes
+                        require __DIR__ . '/read.php';
+                    }
                 }
             } else {
                 // If no valid route is matched
@@ -48,10 +43,8 @@
     
         case 'POST':
             if ($request === '/api/quotes') {
-                // Create a new quote
-                require __DIR__ . '/create.php';
+                require __DIR__ . '/create.php';  // Create a new quote
             } else {
-                // If no valid route is matched
                 http_response_code(404);
                 echo json_encode(['message' => 'Not Found']);
             }
@@ -59,10 +52,8 @@
     
         case 'PUT':
             if ($request === '/api/quotes') {
-                // Update an existing quote
-                require __DIR__ . '/update.php';
+                require __DIR__ . '/update.php';  // Update an existing quote
             } else {
-                // If no valid route is matched
                 http_response_code(404);
                 echo json_encode(['message' => 'Not Found']);
             }
@@ -70,17 +61,14 @@
     
         case 'DELETE':
             if ($request === '/api/quotes') {
-                // Delete a quote
-                require __DIR__ . '/delete.php';
+                require __DIR__ . '/delete.php';  // Delete a quote
             } else {
-                // If no valid route is matched
                 http_response_code(404);
                 echo json_encode(['message' => 'Not Found']);
             }
             break;
     
         default:
-            // If no valid method was found
             http_response_code(404);
             echo json_encode(['message' => 'Method Not Allowed']);
             break;
