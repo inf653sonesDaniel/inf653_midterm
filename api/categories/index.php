@@ -11,17 +11,6 @@
         
     require_once __DIR__ . '/../../vendor/autoload.php'; // Ensure the autoloader is loaded
 
-    header('Access-Control-Allow-Origin: *');
-    header('Content-Type: application/json');
-
-    $method = $_SERVER['REQUEST_METHOD'];
-
-    if ($method === 'OPTIONS') {
-        header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
-        header('Access-Control-Allow-Headers: Origin, Accept, Content-Type, X-Requested-With');
-        exit();
-    }
-
     // Clean URI path to handle routing
     $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH); // Get path without query string
 
