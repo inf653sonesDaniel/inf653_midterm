@@ -22,8 +22,18 @@
     switch ($method) {
         case 'GET':
             if ($request === '/api/quotes') {
-                // Simplify the logic for now
-                require __DIR__ . '/read.php';  // Just try fetching all quotes
+                // If 'id' is provided, fetch a single quote
+                if (isset($query_params['id'])) {
+                    require __DIR__ . '/read_single.php';
+                } else {
+                    // If 'author_id' or 'category_id' are provided, handle filtering
+                    if (isset($query_params['author_id']) || isset($query_params['category_id'])) {
+                        require __DIR__ . '/read.php';  // Pass to read.php to handle filtering
+                    } else {
+                        // If no parameters are provided, fetch all quotes
+                        require __DIR__ . '/read.php';
+                    }
+                }
             } else {
                 // If no valid route is matched
                 http_response_code(404);
