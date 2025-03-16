@@ -1,4 +1,8 @@
 <?php
+    // Set content type to JSON
+    header('Content-Type: application/json');
+    error_reporting(E_ALL & ~E_DEPRECATED & ~E_NOTICE);  // Suppress deprecated and notice warnings
+
     include_once '../../config/Database.php';
     include_once '../../models/Quote.php';
 
@@ -41,10 +45,15 @@
             array_push($quotes_arr['data'], $quote_item);
         }
 
-        echo json_encode($quotes_arr);
+        // Ensure the response is valid JSON
+        $json_response = json_encode($quotes_arr);
+        if ($json_response === false) {
+            echo json_encode(array('message' => 'Failed to encode data to JSON'));
+        } else {
+            echo $json_response;
+        }
     } else {
-        echo json_encode(
-            array('message' => 'No Quotes Found')
-        );
+        // Return an appropriate message if no quotes found
+        echo json_encode(array('message' => 'No Quotes Found'));
     }
 ?>

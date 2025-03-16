@@ -1,4 +1,8 @@
 <?php
+    // Set content type to JSON
+    header('Content-Type: application/json');
+    error_reporting(E_ALL & ~E_DEPRECATED & ~E_NOTICE);  // Suppress deprecated and notice warnings
+
     include_once '../../config/Database.php';
     include_once '../../models/Quote.php';
 
@@ -17,14 +21,13 @@
 
     // Check if quote is found
     if ($quote_item) {
-        echo json_encode(
-            array(
-                'id' => $quote_item->id,
-                'quote' => $quote_item->quote,
-                'author' => $quote_item->author_name,
-                'category' => $quote_item->category_name
-            )
+        $response = array(
+            'id' => $quote_item->id,
+            'quote' => $quote_item->quote,
+            'author' => $quote_item->author_name,
+            'category' => $quote_item->category_name
         );
+        echo json_encode($response);
     } else {
         echo json_encode(
             array('message' => 'No Quote Found')
