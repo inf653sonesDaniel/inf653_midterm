@@ -13,26 +13,17 @@
     // Instantiate Quote object
     $quote = new Quote($db);
 
-    // Initialize filtering variables
-    $filters = [];
-
-    // Check if author_id or category_id is provided (for filtering)
+    // Check if 'author_id' or 'category_id' is passed and set filtering properties
     if (isset($_GET['author_id'])) {
         $quote->author_id = $_GET['author_id'];  // Set author_id for filtering
-        $filters['author_id'] = $_GET['author_id'];  // Add to filter list
     }
 
     if (isset($_GET['category_id'])) {
         $quote->category_id = $_GET['category_id'];  // Set category_id for filtering
-        $filters['category_id'] = $_GET['category_id'];  // Add to filter list
     }
 
     // Get quotes with the applied filters (or all quotes if no filters are set)
-    if (!empty($filters)) {
-        $stmt = $quote->read_(); //
-    } else {
-        $stmt = $quote->read();  //
-    }
+    $stmt = $quote->read(); // Call the existing read() method, which supports filtering
 
     $num = $stmt->rowCount();
 
