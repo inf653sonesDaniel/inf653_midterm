@@ -8,8 +8,6 @@
         header('Access-Control-Allow-Headers: Origin, Accept, Content-Type, X-Requested-With');
         exit();
     }
-        
-    require_once __DIR__ . '/../../vendor/autoload.php'; // Ensure the autoloader is loaded
 
     // Clean URI path to handle routing
     $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH); // Get path without query string

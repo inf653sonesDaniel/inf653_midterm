@@ -1,17 +1,25 @@
 <?php
-    header('Access-Control-Allow-Origin: *');
+    // Allow cross-origin requests
+    header('Access-Control-Allow-Origin: *');  // This allows any domain. You can replace '*' with your specific domain for better security.
+    header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');  // Allow all necessary HTTP methods
+    header('Access-Control-Allow-Headers: Content-Type, X-Requested-With, Authorization');  // Allow custom headers if needed
+
+    // Handle OPTIONS request (preflight request)
+    if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+        exit(0);  // Exit immediately for OPTIONS request
+    }
+
+    // Set content type to JSON for all responses
     header('Content-Type: application/json');
+
+    // Your existing API routing logic here...
     $method = $_SERVER['REQUEST_METHOD'];
 
     if ($method === 'OPTIONS') {
-        header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
-        header('Access-Control-Allow-Headers: Origin, Accept, Content-Type, X-Requested-With');
+        // Exit early if the request is an OPTIONS request (this is required for CORS preflight)
         exit();
     }
     
-    require_once __DIR__ . '/../../vendor/autoload.php'; // Ensure the autoloader is loaded
-
-
     // Clean URI path to handle routing
     $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH); // Get path without query string
 
