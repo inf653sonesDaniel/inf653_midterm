@@ -21,46 +21,57 @@
     // Get raw posted data
     $data = json_decode(file_get_contents("php://input"));
 
-    // Ensure required data is present
-    if (isset($data->quote) && isset($data->author_id) && isset($data->category_id)) {
-        // Set quote properties
-        $quote->quote = $data->quote;
-        $quote->author_id = $data->author_id;
-        $quote->category_id = $data->category_id;
+    // Check for missing parameters and provide specific error messages
+    if (!isset($data->quote)) {
+        echo json_encode(array('message' => 'Missing Required Parameters'));
+        exit();
+    }
 
-        // Check if author exists
-        $author->id = $data->author_id;
-        if (!$author->authorExists()) {
-            echo json_encode(array('message' => 'Author does not exist'));
-            exit();
-        }
+    if (!isset($data->author_id)) {
+        echo json_encode(array('message' => 'author_id Not Found'));
+        exit();
+    }
 
-        // Check if category exists
-        $category->id = $data->category_id;
-        if (!$category->categoryExists()) {
-            echo json_encode(array('message' => 'Category does not exist'));
-            exit();
-        }
+    if (!isset($data->category_id)) {
+        echo json_encode(array('message' => 'category_id Not Found'));
+        exit();
+    }
 
-        // Create the quote
-        if ($quote->create()) {
-            // Fetch author and category names
-            $author_name = $author->read_single()->author;  // Assuming `read_single()` returns the author name
-            $category_name = $category->read_single()->category;  // Assuming `read_single()` returns the category name
+    // Set quote properties
+    $quote->quote = $data->quote;
+    $quote->author_id = $data->author_id;
+    $quote->category_id = $data->category_id;
 
-            // Return the created quote with author and category names
-            echo json_encode(
-                array(
-                    'id' => $quote->id,
-                    'quote' => $quote->quote,
-                    'author' => $author_name,
-                    'category' => $category_name
-                )
-            );
-        } else {
-            echo json_encode(array('message' => 'Quote Not Created'));
-        }
+    // Check if author exists
+    $author->id = $data->author_id;
+    if (!$author->authorExists()) {
+        echo json_encode(array('message' => 'Author does not exist'));
+        exit();
+    }
+
+    // Check if category exists
+    $category->id = $data->category_id;
+    if (!$category->categoryExists()) {
+        echo json_encode(array('message' => 'Category does not exist'));
+        exit();
+    }
+
+    // Create the quote
+    if ($quote->create()) {
+        // Fetch author and category names
+        $author_name = $author->read_single()->author;  // Assuming `read_single()` returns the author name
+        $category_name = $category->read_single()->category;  // Assuming `read_single()` returns the category name
+
+        // Return the created quote with author and category names
+        echo json_encode(
+            array(
+                'id' => $quote->id,
+                'quote' => $quote->quote,
+                'author' => $author_name,
+                'category' => $category_name
+            )
+        );
     } else {
-        echo json_encode(array('message' => 'Missing required data'));
+        echo json_encode(array('message' => 'Quote Not Created'));
     }
 ?>
