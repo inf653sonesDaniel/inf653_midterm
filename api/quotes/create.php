@@ -45,14 +45,14 @@
     // Check if author exists
     $author->id = $data->author_id;
     if (!$author->authorExists()) {
-        echo json_encode(array('message' => 'Author does not exist'));
+        echo json_encode(array('message' => 'author_id Not Found'));
         exit();
     }
 
     // Check if category exists
     $category->id = $data->category_id;
     if (!$category->categoryExists()) {
-        echo json_encode(array('message' => 'Category does not exist'));
+        echo json_encode(array('message' => 'category_id Not Found'));
         exit();
     }
 
