@@ -168,11 +168,11 @@
         public function create() {
             // First, check if author and category exist
             if (!$this->authorExists()) {
-                return array('message' => 'Author does not exist');
+                return array('message' => 'author_id Not Found');
             }
     
             if (!$this->categoryExists()) {
-                return array('message' => 'Category does not exist');
+                return array('message' => 'category_id Not Found');
             }
     
             // Create the query to insert the quote
