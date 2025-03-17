@@ -29,7 +29,6 @@
 
     if ($num > 0) {
         $quotes_arr = array();
-        $quotes_arr['data'] = array();
 
         // Fetch quotes and structure the response
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -40,10 +39,11 @@
                 'author' => $author_name,  // Assuming author_name is available in the data
                 'category' => $category_name  // Assuming category_name is available in the data
             );
-            array_push($quotes_arr['data'], $quote_item);
+            // Push each quote item to the quotes array directly
+            array_push($quotes_arr, $quote_item);
         }
 
-        // Return the list of quotes in JSON format
+        // Return the list of quotes in JSON format directly as an array
         echo json_encode($quotes_arr);
     } else {
         // Return a message if no quotes were found
