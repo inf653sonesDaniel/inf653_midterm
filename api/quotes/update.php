@@ -21,40 +21,53 @@
     $data = json_decode(file_get_contents("php://input"));
 
     // Ensure the id, quote, author_id, and category_id are set
-    if (isset($data->id) && isset($data->quote) && isset($data->author_id) && isset($data->category_id)) {
-        // Set properties for the update
-        $quote->id = $data->id;
-        $quote->quote = $data->quote;
-        $quote->author_id = $data->author_id;
-        $quote->category_id = $data->category_id;
+    if (!isset($data->id) || !isset($data->quote) || !isset($data->author_id) || !isset($data->category_id)) {
+        echo json_encode(array('message' => 'Missing Required Parameters'));
+        exit(); // Exit if any required data is missing
+    }
 
-        // Check if the quote exists
-        if (!$quote->quoteExists()) {
-            echo json_encode(array('message' => 'Quote not found or already deleted'));
-            exit();
-        }
+    // Set properties for the update
+    $quote->id = $data->id;
+    $quote->quote = $data->quote;
+    $quote->author_id = $data->author_id;
+    $quote->category_id = $data->category_id;
 
-        // Check if the author exists
-        $author->id = $data->author_id;
-        if (!$author->authorExists()) {
-            echo json_encode(array('message' => 'Author does not exist'));
-            exit();
-        }
+    // Check if the quote exists
+    if (!$quote->quoteExists()) {
+        echo json_encode(array('message' => 'No Quotes Found'));
+        exit();
+    }
 
-        // Check if the category exists
-        $category->id = $data->category_id;
-        if (!$category->categoryExists()) {
-            echo json_encode(array('message' => 'Category does not exist'));
-            exit();
-        }
+    // Check if the author exists
+    $author->id = $data->author_id;
+    if (!$author->authorExists()) {
+        echo json_encode(array('message' => 'author_id Not Found'));
+        exit();
+    }
 
-        // Attempt to update the quote
-        if ($quote->update()) {
-            echo json_encode(array('message' => 'Quote updated'));
-        } else {
-            echo json_encode(array('message' => 'Failed to update the quote'));
-        }
+    // Check if the category exists
+    $category->id = $data->category_id;
+    if (!$category->categoryExists()) {
+        echo json_encode(array('message' => 'category_id Not Found'));
+        exit();
+    }
+
+    // Attempt to update the quote
+    if ($quote->update()) {
+        // Fetch updated quote data
+        $updatedQuote = $quote->read_single();  // Get the updated quote
+
+        // Return the updated quote as a JSON object
+        echo json_encode(
+            array(
+                'id' => $updatedQuote->id,
+                'quote' => $updatedQuote->quote,
+                'author_id' => $updatedQuote->author_id,
+                'category_id' => $updatedQuote->category_id
+            )
+        );
     } else {
-        echo json_encode(array('message' => 'Missing required data'));
+        // If update fails, return a message
+        echo json_encode(array('message' => 'Failed to update the quote'));
     }
 ?>
