@@ -27,7 +27,7 @@
   } else {
     // Return a message if no author is found
     echo json_encode(
-      array('message' => 'Author Not Found')
+      array('message' => 'author_id Not Found')
     );
   }
 ?>
