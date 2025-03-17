@@ -1,8 +1,5 @@
 <?php
-  // Include necessary files and handle the request
   include_once '../../config/Database.php';
-  include_once '../../models/Quote.php';
-  include_once '../../models/Author.php';
   include_once '../../models/Category.php';
 
   // Instantiate DB & connect
@@ -15,18 +12,27 @@
   // Get raw posted data
   $data = json_decode(file_get_contents("php://input"));
 
-  // Ensure the category is set
-  if (isset($data->category)) {
-    // Set category property for creation
-    $category->category = $data->category;
+  // Check if the 'category_name' field is set in the input data
+  if (isset($data->category_name)) {
+    $category->category_name = $data->category_name;
 
-    // Create the category
+    // Create Category
     if ($category->create()) {
-        echo json_encode(array('message' => 'Category Created'));
+      // Return the response with the id of the newly created category
+      echo json_encode(
+        array(
+          'id' => $category->id,            // Category's ID (auto-incremented)
+          'category_name' => $category->category_name  // The category's name
+        )
+      );
     } else {
-        echo json_encode(array('message' => 'Category Not Created'));
+      echo json_encode(
+        array('message' => 'Category Not Created')
+      );
     }
   } else {
-    echo json_encode(array('message' => 'Missing required data (Category name)'));
+    echo json_encode(
+      array('message' => 'Missing Required Parameters')
+    );
   }
 ?>

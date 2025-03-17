@@ -1,8 +1,6 @@
 <?php
   include_once '../../config/Database.php';
-  include_once '../../models/Quote.php';
   include_once '../../models/Author.php';
-  include_once '../../models/Category.php';
 
   // Instantiate DB & connect
   $database = new Database();
@@ -20,8 +18,12 @@
 
     // Create Author
     if ($author->create()) {
+      // Return the response with the id of the newly created author
       echo json_encode(
-        array('message' => 'Author Created')
+        array(
+          'id' => $author->id,      // Author's ID (auto-incremented)
+          'author' => $author->author  // The author's name
+        )
       );
     } else {
       echo json_encode(
@@ -30,7 +32,7 @@
     }
   } else {
     echo json_encode(
-      array('message' => 'No author data provided')
+      array('message' => 'Missing Required Parameters')
     );
   }
 ?>
