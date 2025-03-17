@@ -1,6 +1,6 @@
-<?php 
+<?php
   include_once '../../config/Database.php';
-  include_once '../../models/Quote.php';
+  include_once '../../models/Author.php';
 
   // Instantiate DB & connect
   $database = new Database();
@@ -9,39 +9,58 @@
   // Instantiate author object
   $author = new Author($db);
 
-  // Author query
-  $result = $author->read();
-  // Get row count
-  $num = $result->rowCount();
+  // Get the query parameter for 'id'
+  $query_params = $_GET; // Get the query parameters (e.g., 'id')
 
-  // Check if any Authors
-  if($num > 0) {
-    $author_arr = array();
+  // If 'id' is passed in the query string
+  if (isset($query_params['id'])) {
+    // Set the ID for fetching a specific author
+    $author->id = $query_params['id'];
 
-    while($row = $result->fetch(PDO::FETCH_ASSOC)) {
-      extract($row);
+    // Fetch the single author by ID
+    $result = $author->read_single();
 
-      $author_item = array(
-        'id' => $id,
-        'author' => $author
-      );
-
-      // Push to "data"
-      array_push($author_arr, $author_item);
+    // Check if the author was found
+    if ($result) {
+      // Return the single author's data as a JSON object
+      echo json_encode(array(
+        'id' => $result['id'], // Assuming 'id' is part of the result
+        'author' => $result['author_name'] // Assuming 'author_name' holds the author's name
+      ));
+    } else {
+      // If no author is found, return a message
+      echo json_encode(array('message' => 'author_id Not Found'));
     }
 
-    // Wrap the data in an array under a 'data' key
-    $response = array(
-      'data' => $author_arr
-    );
-
-    // Return the JSON response with the authors' data
-    echo json_encode($response);
-
   } else {
-    // No authors found, return a message
-    echo json_encode(
-      array('message' => 'No Authors Found')
-    );
+    // If no 'id' is passed, fetch all authors
+    $result = $author->read();
+    $num = $result->rowCount();
+
+    // Check if there are authors
+    if ($num > 0) {
+      $author_arr = array();
+
+      // Loop through all the authors and format the data
+      while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+        extract($row);
+
+        // Create the author item
+        $author_item = array(
+          'id' => $id,
+          'author' => $author_name // Assuming 'author_name' is the field for author's name
+        );
+
+        // Push the current author to the authors array
+        array_push($author_arr, $author_item);
+      }
+
+      // Return the list of authors as a JSON array
+      echo json_encode($author_arr);
+
+    } else {
+      // No authors found, return an empty array
+      echo json_encode(array());
+    }
   }
 ?>

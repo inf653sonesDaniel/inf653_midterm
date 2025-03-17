@@ -15,7 +15,8 @@
 
     // Define the base route
     $base_route = '/api/authors';
-
+    $request = rtrim($request, '/');
+    
     switch ($method) {
         case 'GET':
             if ($request === $base_route) {
