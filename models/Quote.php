@@ -192,10 +192,15 @@
             if ($stmt->execute()) {
                 // Fetch the last inserted id
                 $this->id = $this->conn->lastInsertId();
-                return true;
+                // Return the newly created quote as a JSON object
+                return array(
+                    'id' => $this->id,
+                    'quote' => $this->quote,
+                    'author_id' => $this->author_id,
+                    'category_id' => $this->category_id
+                );
             }
-    
-            return false;
+            return false; // If the insertion fails
         }
     
         // Update quote
