@@ -63,7 +63,7 @@
           $this->category = $row['category'];
           return $this;
         } else {
-          return array('message' => 'Category ID not found');
+          return null;  // Return null if category not found
         }
     }
 

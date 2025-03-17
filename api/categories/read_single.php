@@ -4,32 +4,40 @@
   error_reporting(E_ALL & ~E_DEPRECATED & ~E_NOTICE);  // Suppress deprecated and notice warnings
 
   include_once '../../config/Database.php';
-  include_once '../../models/Quote.php';
+  include_once '../../models/Category.php';  // Assuming you have a Category model
 
   // Instantiate DB & connect
   $database = new Database();
   $db = $database->connect();
 
   // Instantiate category object
-  $categories = new Category($db);
+  $category = new Category($db);
 
-  // Get ID
-  $categories->id = isset($_GET['id']) ? $_GET['id'] : die();
-
-  // Get the author
-  $result = $categories->read_single();
-
-  // Check if result contains an array (error message)
-  if (is_array($result) && isset($result['message'])) {
-    // Output the message if no author was found
-    echo json_encode(array('message' => $result['message']));
+  // Check if 'id' is passed in the query string
+  if (isset($_GET['id'])) {
+    $category->id = $_GET['id'];  // Set the category ID from the query parameter
   } else {
-    // Output author data if found
+    // If no ID is provided, return an error message
+    echo json_encode(array('message' => 'Category ID is required'));
+    exit;
+  }
+
+  // Get the category details by ID
+  $result = $category->read_single();  // Fetch the single category by ID
+
+  // Check if category is found
+  if ($result) {
+    // Return the category data as a single JSON object
     echo json_encode(
-        array(
-            'id' => $categories->id,
-            'category' => $categories->category
-        )
+      array(
+        'id' => $category->id,       // Use the property from the object
+        'category' => $category->category  // Use the property from the object
+      )
+    );
+  } else {
+    // Return a message if no category is found
+    echo json_encode(
+      array('message' => 'category_id Not Found')
     );
   }
 ?>

@@ -13,34 +13,58 @@
   // Instantiate category object
   $categories = new Category($db);
 
-  // Category query
-  $result = $categories->read();
-  // Get row count
-  $num = $result->rowCount();
+  // Get the query parameter for 'id'
+  $query_params = $_GET; // Get the query parameters (e.g., 'id')
 
-  // Check if any categories
-  if($num > 0) {
-    $categories_arr = array();
+  // If 'id' is passed in the query string
+  if (isset($query_params['id'])) {
+    // Set the ID for fetching a specific category
+    $categories->id = $query_params['id'];
 
-    while($row = $result->fetch(PDO::FETCH_ASSOC)) {
-      extract($row);
+    // Fetch the single category by ID
+    $result = $categories->read_single();
 
-      $categories_item = array(
-        'id' => $id,
-        'category' => $category
-      );
-
-      // Push to the array
-      array_push($categories_arr, $categories_item);
+    // Check if the category was found
+    if ($result) {
+      // Return the single category's data as a JSON object
+      echo json_encode(array(
+        'id' => $categories->id,    // Use the object properties
+        'category' => $categories->category  // Assuming 'category' is a property in the Category class
+      ));
+    } else {
+      // If no category is found, return a message
+      echo json_encode(array('message' => 'Category not found'));
     }
 
-    // Turn to JSON & output
-    echo json_encode($categories_arr);
-
   } else {
-    // No Category
-    echo json_encode(
-      array('message' => 'No such category Found')
-    );
+    // If no 'id' is passed, fetch all categories
+    $result = $categories->read();  // Assuming the Category model has a method 'read' to fetch all categories
+    $num = $result->rowCount();
+
+    // Check if there are categories
+    if ($num > 0) {
+      $categories_arr = array();
+
+      // Loop through all the categories and format the data
+      while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+        extract($row);
+
+        // Create the category item
+        $category_item = array(
+          'id' => $id,           // Field 'id'
+          'category' => $category // Field 'category'
+        );
+
+        // Push the current category to the categories array
+        array_push($categories_arr, $category_item);
+      }
+
+      // Return the list of categories as a JSON array
+      echo json_encode($categories_arr);
+
+    } else {
+      // No categories found, return an empty array
+      echo json_encode(array());
+    }
   }
 ?>
