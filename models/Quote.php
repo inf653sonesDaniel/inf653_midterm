@@ -197,7 +197,7 @@
         // Update quote
         public function update() {
             if (!$this->quoteExists()) {
-                return false; // Quote doesn't exist
+                return array('message' => 'Missing Required Parameters');
             }
     
             // Check if author and category exist before updating
