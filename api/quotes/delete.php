@@ -28,13 +28,14 @@
 
         // Check if the quote exists
         if (!$quote->quoteExists()) {
-            echo json_encode(array('message' => 'Quote not found or already deleted'));
+            echo json_encode(array('message' => 'No Quotes Found'));
             exit();
         }
 
         // Attempt to delete the quote
         if ($quote->delete()) {
-            echo json_encode(array('message' => 'Quote deleted successfully'));
+            // Return the deleted quote's ID in a JSON object
+            echo json_encode(array('id' => $quote->id));
         } else {
             echo json_encode(array('message' => 'Failed to delete the quote'));
         }
