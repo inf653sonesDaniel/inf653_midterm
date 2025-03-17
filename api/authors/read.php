@@ -24,8 +24,8 @@
     if ($result) {
       // Return the single author's data as a JSON object
       echo json_encode(array(
-        'id' => $result['id'], // Assuming 'id' is part of the result
-        'author' => $result['author'] // Use 'author' since that's the column name
+        'id' => $author->id,    // Use the object properties
+        'author' => $author->author
       ));
     } else {
       // If no author is found, return a message
@@ -47,8 +47,8 @@
 
         // Create the author item
         $author_item = array(
-          'id' => $id,
-          'author' => $author // Use 'author' here too
+          'id' => $id,           // Field 'id'
+          'author' => $author    // Field 'author'
         );
 
         // Push the current author to the authors array
