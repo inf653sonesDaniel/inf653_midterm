@@ -17,17 +17,17 @@
 
   // Check if author is found
   if ($result) {
-    // Return the author data as a JSON object
+    // Return the author data as a single JSON object
     echo json_encode(
       array(
-        'id' => $author->id,
-        'author' => $author->author
+        'id' => $author->id, // Use the property from the object
+        'author' => $author->author // Use the property from the object
       )
     );
   } else {
     // Return a message if no author is found
     echo json_encode(
-      array('message' => 'author_id Not Found')
+      array('message' => 'Author Not Found')
     );
   }
 ?>
