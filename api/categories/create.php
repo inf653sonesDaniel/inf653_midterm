@@ -16,9 +16,10 @@
   // Get raw posted data
   $data = json_decode(file_get_contents("php://input"));
 
-  // Check if the 'category_name' field is set in the input data
-  if (isset($data->category_name)) {
-    $category->category_name = $data->category_name;
+  // Check if the 'category' field is set in the input data
+  if (isset($data->category)) {
+    // Assign category field to the model property
+    $category->category = $data->category;
 
     // Create Category
     if ($category->create()) {
@@ -26,7 +27,7 @@
       echo json_encode(
         array(
           'id' => $category->id,            // Category's ID (auto-incremented)
-          'category_name' => $category->category_name  // The category's name
+          'category' => $category->category  // The category's name
         )
       );
     } else {
