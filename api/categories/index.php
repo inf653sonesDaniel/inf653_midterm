@@ -9,13 +9,13 @@
         exit();
     }
         
-
     // Clean URI path to handle routing
     $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH); // Get path without query string
     $query_params = $_GET; // Get the query parameters (e.g., id)
 
     // Define the base route
     $base_route = '/api/categories';
+    $request = rtrim($request, '/');
 
     switch ($method) {
         case 'GET':

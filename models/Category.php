@@ -41,9 +41,7 @@
             category
           FROM
             ' . $this->table . '
-        WHERE id = ?
-        LIMIT 1
-        OFFSET 0';
+        WHERE id = ? LIMIT 1';
 
         //Prepare statement
         $stmt = $this->conn->prepare($query);
