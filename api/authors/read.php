@@ -33,7 +33,7 @@
       ));
     } else {
       // If no author is found, return a message
-      echo json_encode(array('message' => 'Author not found'));
+      echo json_encode(array('message' => 'author_id Not Found'));
     }
 
   } else {
