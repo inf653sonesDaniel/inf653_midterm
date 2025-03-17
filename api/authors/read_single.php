@@ -4,7 +4,7 @@
   error_reporting(E_ALL & ~E_DEPRECATED & ~E_NOTICE);  // Suppress deprecated and notice warnings
 
   include_once '../../config/Database.php';
-  include_once '../../models/Quote.php';
+  include_once '../../models/Author.php';
 
   // Instantiate DB & connect
   $database = new Database();
@@ -14,17 +14,23 @@
   $author = new Author($db);
 
   // Get ID from query parameter
-  $author->id = isset($_GET['id']) ? $_GET['id'] : die(json_encode(array('message' => 'Author ID is required')));
+  if (isset($_GET['id'])) {
+      $author->id = $_GET['id']; // Set the author ID from the query parameter
+  } else {
+      // If no ID is provided, return an error message
+      echo json_encode(array('message' => 'Author ID is required'));
+      exit;
+  }
 
   // Get the author
-  $result = $author->read_single();
+  $result = $author->read_single();  // Fetch the single author by ID
 
   // Check if author is found
   if ($result) {
     // Return the author data as a single JSON object
     echo json_encode(
       array(
-        'id' => $author->id, // Use the property from the object
+        'id' => $author->id,  // Use the property from the object
         'author' => $author->author // Use the property from the object
       )
     );
