@@ -82,13 +82,15 @@
       $stmt-> bindParam(':category', $this->category);
 
       // Execute query
-      if($stmt->execute()) {
+      if ($stmt->execute()) {
+        // Retrieve the last inserted id and set it to the model property
+        $this->id = $this->conn->lastInsertId(); // Get the last inserted id
+
         return true;
       }
 
       // Print error if something goes wrong
       printf("Error: $s.\n", $stmt->error);
-
       return false;
     }
 
