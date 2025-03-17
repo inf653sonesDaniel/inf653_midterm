@@ -9,26 +9,25 @@
   // Instantiate author object
   $author = new Author($db);
 
-  // Get ID
-  $author->id = isset($_GET['id']) ? $_GET['id'] : die();
-
-  // Get Author
-  $author->read_single();
+  // Get ID from query parameter
+  $author->id = isset($_GET['id']) ? $_GET['id'] : die(json_encode(array('message' => 'Author ID is required')));
 
   // Get the author
   $result = $author->read_single();
 
-  // Check if result contains an array (error message)
-  if (is_array($result) && isset($result['message'])) {
-    // Output the message if no author was found
-    echo json_encode(array('message' => $result['message']));
-  } else {
-    // Output author data if found
+  // Check if author is found
+  if ($result) {
+    // Return the author data as a JSON object
     echo json_encode(
-        array(
-            'id' => $author->id,
-            'author' => $author->author
-        )
+      array(
+        'id' => $author->id,
+        'author' => $author->author
+      )
+    );
+  } else {
+    // Return a message if no author is found
+    echo json_encode(
+      array('message' => 'author_id Not Found')
     );
   }
 ?>

@@ -30,7 +30,7 @@
         echo json_encode($response);
     } else {
         echo json_encode(
-            array('message' => 'No Quote Found')
+            array('message' => 'No Quotes Found')
         );
     }
 ?>
