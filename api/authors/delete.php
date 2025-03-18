@@ -28,17 +28,16 @@
     if (!$author->authorExists()) {
         // If the author doesn't exist, return an error message
         echo json_encode(array('message' => 'Author Not Found'));
-    } else {
-        // If the author exists, check if the author is being used in any quotes
-        if ($author->delete()) {
+        exit();
+    }
+        
+    if ($author->delete()) {
           // Return the id of the deleted author
-          echo json_encode(array('id' => $author->id, 'message' => 'Author Deleted'));
-      } else {
-          // Return message if the author cannot be deleted because it is in use by quotes
-          echo json_encode(array('id' => $author->id, 'message' => 'Author cannot be deleted because it is in use by quotes.'));
-      }
+          echo json_encode(array('id' => $author->id));
+    } else {
+          echo json_encode(array('message' => 'Failed to delete the author.'));
     }
   } else {
-    echo json_encode(array('message' => 'Missing required data (ID)'));
+    echo json_encode(array('message' => 'Missing author ID'));
   }
 ?>

@@ -24,18 +24,19 @@
     // Set ID for deletion
     $category->id = $data->id;
 
-    // Check if the category exists
-    if ($category->categoryExists()) {
-      // Try to delete the category
-      if ($category->delete()) {
-        // Return the id of the deleted category
-        echo json_encode(array('id' => $category->id, 'message' => 'Category Deleted'));
-      } else {
-          // Return message if the category cannot be deleted because it is in use by quotes
-          echo json_encode(array('id' => $category->id, 'message' => 'Category cannot be deleted because it is in use by quotes.'));
-      }
+    if (!$category->categoryExists()) {
+      // If the category doesn't exist, return an error message
+      echo json_encode(array('message' => 'category Not Found'));
+      exit();
     }
-  } else {
-    echo json_encode(array('message' => 'Missing required data (ID)'));
-  }
+        
+    if ($category->delete()) {
+          // Return the id of the deleted category
+          echo json_encode(array('id' => $category->id));
+    } else {
+          echo json_encode(array('message' => 'Failed to delete the author.'));
+    }
+} else {
+  echo json_encode(array('message' => 'Missing category ID'));
+}
 ?>
