@@ -118,11 +118,11 @@
 
       // Execute the query
       if ($stmt->execute()) {
-          // If update is successful, fetch the updated author
-          return true;  // Return the updated author object
+        // If update is successful, fetch the updated author
+        return $this->read_single();  // Return the updated author object
       } else {
           // If the update fails, return an error message
-          return false;
+          return array('message' => 'Failed to update the author');
       }
     }
 
