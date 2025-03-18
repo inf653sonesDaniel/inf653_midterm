@@ -4,8 +4,6 @@
   error_reporting(E_ALL & ~E_DEPRECATED & ~E_NOTICE);  // Suppress deprecated and notice warnings
 
   include_once '../../config/Database.php';
-  include_once '../../models/Quote.php';
-  include_once '../../models/Author.php';
   include_once '../../models/Category.php';
 
   // Instantiate DB & connect
@@ -25,16 +23,19 @@
     $category->category = $data->category;
 
     // Update Category
-    if ($category->update()) {
-        echo json_encode(
-            array('message' => 'Category Updated')
-        );
+    $updated_category = $category->update();
+
+    if ($updated_category) {
+        echo json_encode(array(
+          'id' => $updated_category->id,
+          'category' => $updated_category->category
+          ));
     } else {
         echo json_encode(
             array('message' => 'Category Not Found or Update Failed')
         );
     }
   } else {
-    echo json_encode(array('message' => 'Missing required data (ID or category)'));
+    echo json_encode(array('message' => 'Missing Required Parameters'));
   }
 ?>

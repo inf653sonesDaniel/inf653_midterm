@@ -132,7 +132,8 @@
           // Execute the update query
           if ($stmt->execute()) {
               // If update is successful, fetch the updated author
-              return $this->read_single();  // Return the updated author object
+              $this->read_single();  // Return the updated author object
+              return true;
           } else {
               // Something went wrong during the update
               return false;

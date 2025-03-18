@@ -16,9 +16,6 @@ $author = new Author($db);
 // Get raw posted data
 $data = json_decode(file_get_contents("php://input"));
 
-// Log the data for debugging
-error_log(print_r($data, true));  // Log the incoming data to the error log
-
 // Check if 'id' and 'author' are set in the request
 if (isset($data->id) && isset($data->author)) {
     // Set ID and author for update
@@ -41,7 +38,6 @@ if (isset($data->id) && isset($data->author)) {
     }
 } else {
     echo json_encode(
-        array('message' => 'Missing Required Parameters')
-    );
+        array('message' => 'Missing Required Parameters'));
 }
 ?>
