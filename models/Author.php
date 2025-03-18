@@ -131,6 +131,7 @@
 
         // Execute the update query
         if ($stmt->execute()) {
+          $this->read_single();  // Retrieve the updated author data
             return true;
         } else {
             return false;
