@@ -99,6 +99,10 @@
       // First, check if the category with the given id exists
       $query = 'SELECT id FROM ' . $this->table . ' WHERE id = :id LIMIT 1';
       
+      $query = 'UPDATE ' . $this->table . ' 
+                      SET category = :category, category_id = :category_id
+                      WHERE id = :id';
+
       // Prepare the statement
       $stmt = $this->conn->prepare($query);
       
@@ -109,38 +113,10 @@
       $stmt->bindParam(':id', $this->id);
       
       // Execute the query
-      $stmt->execute();
-
-      // Check if the category exists
-      if ($stmt->rowCount() > 0) {
-          // ID exists, proceed with the update
-
-          // Create Update Query
-          $query = 'UPDATE ' . $this->table . '
-                    SET category = :category
-                    WHERE id = :id';
-
-          // Prepare the statement
-          $stmt = $this->conn->prepare($query);
-
-          // Clean data
-          $this->category = htmlspecialchars(strip_tags($this->category));
-
-          // Bind data
-          $stmt->bindParam(':category', $this->category);
-          $stmt->bindParam(':id', $this->id);
-
-          // Execute the update query
-          if ($stmt->execute()) {
-              $this->read_single();  // Retrieve the updated category data
-              return true;  // Category updated successfully
-          } else {
-              return false;  // Update failed
-          }
-      } else {
-          // Category does not exist
-          return false;  // Category not found
+      if ($stmt->execute()) {
+        return true;
       }
+      return false;
     }
 
     // Delete category

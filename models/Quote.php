@@ -229,7 +229,6 @@
             if ($stmt->execute()) {
                 return true;
             }
-    
             return false;
         }
     

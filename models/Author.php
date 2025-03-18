@@ -95,8 +95,12 @@
 
     // Update author
     public function update() {
-      // First, check if the author with the given id exists
+      // First, check if the category with the given id exists
       $query = 'SELECT id FROM ' . $this->table . ' WHERE id = :id LIMIT 1';
+
+      $query = 'UPDATE ' . $this->table . ' 
+                      SET author = :author, author_id = :author_id
+                      WHERE id = :id';
 
       // Prepare the statement
       $stmt = $this->conn->prepare($query);
@@ -108,40 +112,10 @@
       $stmt->bindParam(':id', $this->id);
 
       // Execute the query
-      $stmt->execute();
-
-      // Check if the id exists
-      if ($stmt->rowCount() > 0) {
-          // ID exists, proceed with the update
-
-          // Create Update Query
-          $query = 'UPDATE ' . $this->table . '
-                    SET author = :author
-                    WHERE id = :id';
-
-          // Prepare the statement
-          $stmt = $this->conn->prepare($query);
-
-          // Clean data
-          $this->author = htmlspecialchars(strip_tags($this->author));
-
-          // Bind data
-          $stmt->bindParam(':author', $this->author);
-          $stmt->bindParam(':id', $this->id);
-
-          // Execute the update query
-          if ($stmt->execute()) {
-              // If update is successful, fetch the updated author
-              $this->read_single();  // Return the updated author object
-              return true;
-          } else {
-              // Something went wrong during the update
-              return false;
-          }
-      } else {
-          // ID does not exist, return false
-          return false;
+      if ($stmt->execute()) {
+        return true;
       }
+      return false;
     }
 
 
