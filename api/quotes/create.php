@@ -57,20 +57,12 @@
     }
 
     // Create the quote
-    if ($quote->create()) {
-        // Fetch author and category names
-        $author_name = $author->read_single()->author;  // Assuming `read_single()` returns the author name
-        $category_name = $category->read_single()->category;  // Assuming `read_single()` returns the category name
+    $created_quote = $quote->create();  // This will return the newly created quote
 
-        // Return the created quote with author and category names
-        echo json_encode(
-            array(
-                'id' => $quote->id,
-                'quote' => $quote->quote,
-                'author' => $author_name,
-                'category' => $category_name
-            )
-        );
+    // Check if the creation was successful
+    if ($created_quote) {
+        // Return the created quote as JSON
+        echo json_encode($created_quote);  // Directly return the newly created quote's details
     } else {
         echo json_encode(array('message' => 'Quote Not Created'));
     }
