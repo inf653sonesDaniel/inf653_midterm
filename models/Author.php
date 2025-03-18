@@ -99,34 +99,38 @@
       if (!$this->authorExists()) {
           return array('message' => 'Author does not exist');  // Return error if author does not exist
       }
-
+  
       // Prepare update query
       $query = 'UPDATE ' . $this->table . '
                 SET author = :author
                 WHERE id = :id';
-
+  
       // Prepare the statement
       $stmt = $this->conn->prepare($query);
-
+  
       // Clean data
       $this->author = htmlspecialchars(strip_tags($this->author));
       $this->id = htmlspecialchars(strip_tags($this->id));
-
+  
       // Bind data
       $stmt->bindParam(':author', $this->author);
       $stmt->bindParam(':id', $this->id);
-
+  
       // Execute the query
       if ($stmt->execute()) {
-        // If update is successful, fetch the updated author
-        return $this->read_single();  // Return the updated author object
+          // Add a debug log to confirm the execution of the update
+          echo "Update successful for author with id: " . $this->id . "\n";
+  
+          // If update is successful, fetch the updated author
+          return $this->read_single();  // Return the updated author object
       } else {
+          // Add a debug log to confirm if the update failed
+          echo "Failed to update author with id: " . $this->id . "\n";
+          
           // If the update fails, return an error message
           return array('message' => 'Failed to update the author');
       }
     }
-
-
 
     // Delete author
     public function delete() {
