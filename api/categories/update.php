@@ -22,20 +22,25 @@
     $category->id = $data->id;
     $category->category = $data->category;
 
-    // Update Category
+    // Check if the author exists before updating
+    if (!$category->categoryExists()) {
+      echo json_encode(array('message' => 'category_id Not Found'));
+      exit();  // Exit if the category does not exist
+    }
+
+    // Attempt to update the category
     $updated_category = $category->update();
 
+    // Check if the update was successful
     if ($updated_category) {
+        // Return the updated category as a JSON object
         echo json_encode(array(
-          'id' => $updated_category->id,
-          'category' => $updated_category->category
-          ));
-    } else {
-        echo json_encode(
-            array('message' => 'Category Not Found or Update Failed')
-        );
+            'id' => $updated_category->id,
+            'category' => $updated_category->category
+        ));
     }
   } else {
-    echo json_encode(array('message' => 'Missing Required Parameters'));
+    echo json_encode(
+      array('message' => 'Missing Required Parameters'));
   }
 ?>
