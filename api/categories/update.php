@@ -16,31 +16,28 @@
   // Get raw posted data
   $data = json_decode(file_get_contents("php://input"));
 
-  // Ensure the id and category are set
-  if (isset($data->id) && isset($data->category)) {
-    // Set ID and category for update
-    $category->id = $data->id;
-    $category->category = $data->category;
+  // Ensure 'id' and 'category' are set in the request
+  if (!isset($data->id) || !isset($data->category)) {
+    echo json_encode(array('message' => 'Missing Required Parameters'));
+    exit();  // Exit if any required data is missing
+  }
 
-    // Check if the author exists before updating
-    if (!$category->categoryExists()) {
-      echo json_encode(array('message' => 'category_id Not Found'));
-      exit();  // Exit if the category does not exist
-    }
+  // Set ID and category for update
+  $category->id = $data->id;
+  $category->category = $data->category;
 
-    // Attempt to update the category
-    $updated_category = $category->update();
+  // Attempt to update the category
+  $updated_category = $category->update();
 
-    // Check if the update was successful
-    if ($updated_category) {
-        // Return the updated category as a JSON object
-        echo json_encode(array(
-            'id' => $updated_category->id,
-            'category' => $updated_category->category
-        ));
-    }
+  // Check if the update was successful
+  if (isset($updated_category['message'])) {
+      // If update fails, return an error message
+      echo json_encode($updated_category);
   } else {
-    echo json_encode(
-      array('message' => 'Missing Required Parameters'));
+      // If the update is successful, return the updated category as a JSON object
+      echo json_encode(array(
+          'id' => $updated_category->id,
+          'category' => $updated_category->category
+      ));
   }
 ?>
