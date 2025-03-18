@@ -22,22 +22,28 @@
         exit();  // Exit if any required data is missing
     }
 
-    // Set ID and author for update
+    // Set properties for the update
     $author->id = $data->id;
     $author->author = $data->author;
 
     // Attempt to update the author
     if($author->update()) {
+        // After update, fetch the updated author
         $updated_author = $author->read_single();
 
-        // Return the updated author as a JSON object
-        echo json_encode(
-            array(
-                'id' => $updated_author->id,
-                'author' => $updated_author->author
-        ));
+        // If the update was successful, return the updated data
+        if ($updated_author) {
+            echo json_encode(
+                array(
+                    'id' => $updated_author->id,
+                    'author' => $updated_author->author
+                )
+            );
+        } else {
+            echo json_encode(array('message' => 'Failed to fetch updated author.'));
+        }
     } else {
         // If update fails, return a message
-        echo json_encode(array('message' => 'Failed to update the quote'));
+        echo json_encode(array('message' => 'Failed to update the author'));
     }
 ?>
