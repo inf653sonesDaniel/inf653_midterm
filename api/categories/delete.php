@@ -28,12 +28,12 @@
     if ($category->categoryExists()) {
       // Try to delete the category
       if ($category->delete()) {
-        echo json_encode(array('message' => 'Category Deleted'));
+        // Return the id of the deleted category
+        echo json_encode(array('id' => $category->id, 'message' => 'Category Deleted'));
       } else {
-        echo json_encode(array('message' => 'Category cannot be deleted because it is in use by quotes.'));
+          // Return message if the category cannot be deleted because it is in use by quotes
+          echo json_encode(array('id' => $category->id, 'message' => 'Category cannot be deleted because it is in use by quotes.'));
       }
-    } else {
-      echo json_encode(array('message' => 'Category not found'));
     }
   } else {
     echo json_encode(array('message' => 'Missing required data (ID)'));

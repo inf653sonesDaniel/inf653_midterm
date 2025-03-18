@@ -31,10 +31,12 @@
     } else {
         // If the author exists, check if the author is being used in any quotes
         if ($author->delete()) {
-            echo json_encode(array('message' => 'Author Deleted'));
-        } else {
-            echo json_encode(array('message' => 'Author cannot be deleted because it is in use by quotes.'));
-        }
+          // Return the id of the deleted author
+          echo json_encode(array('id' => $author->id, 'message' => 'Author Deleted'));
+      } else {
+          // Return message if the author cannot be deleted because it is in use by quotes
+          echo json_encode(array('id' => $author->id, 'message' => 'Author cannot be deleted because it is in use by quotes.'));
+      }
     }
   } else {
     echo json_encode(array('message' => 'Missing required data (ID)'));
