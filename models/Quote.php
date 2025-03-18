@@ -183,13 +183,25 @@
             if ($stmt->execute()) {
                 // Fetch the last inserted id
                 $this->id = $this->conn->lastInsertId();
-                // Return the newly created quote as a JSON object
-                return array(
-                    'id' => $this->id,
-                    'quote' => $this->quote,
-                    'author_id' => $this->author_id,
-                    'category_id' => $this->category_id
-                );
+                
+                // After inserting, retrieve the just inserted quote
+                $query = 'SELECT id, quote, author_id, category_id FROM ' . $this->table . ' WHERE id = :id';
+                $stmt = $this->conn->prepare($query);
+                $stmt->bindParam(':id', $this->id);
+                $stmt->execute();
+
+                // Fetch the newly inserted quote
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                // If the quote was fetched successfully, return it
+                if ($row) {
+                    return array(
+                        'id' => $row['id'],
+                        'quote' => $row['quote'],
+                        'author_id' => $row['author_id'],
+                        'category_id' => $row['category_id']
+                    );
+                }
             }
             return false; // If the insertion fails
         }
