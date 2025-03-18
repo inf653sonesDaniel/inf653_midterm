@@ -132,6 +132,7 @@
 
           // Execute the update query
           if ($stmt->execute()) {
+              $this->read_single();  // Retrieve the updated category data
               return true;  // Category updated successfully
           } else {
               return false;  // Update failed
