@@ -24,13 +24,10 @@
 
     // Update Author
     if ($author->update()) {
-      // Get the updated author details
-      $updated_author = $author->read_single();
-
       // Return the updated author as a JSON object
       echo json_encode(array(
-          'id' => $updated_author->id,
-          'author' => $updated_author->author
+          'id' => $author->id,
+          'author' => $author->author
       ));
     } else {
         echo json_encode(
