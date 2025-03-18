@@ -4,9 +4,7 @@
   error_reporting(E_ALL & ~E_DEPRECATED & ~E_NOTICE);  // Suppress deprecated and notice warnings
 
   include_once '../../config/Database.php';
-  include_once '../../models/Quote.php';
   include_once '../../models/Author.php';
-  include_once '../../models/Category.php';
 
   // Instantiate DB & connect
   $database = new Database();
@@ -26,17 +24,22 @@
 
     // Update Author
     if ($author->update()) {
-      echo json_encode(
-        array('message' => 'Author Updated')
-      );
+      // Get the updated author details
+      $updated_author = $author->read_single();
+
+      // Return the updated author as a JSON object
+      echo json_encode(array(
+          'id' => $updated_author->id,
+          'author' => $updated_author->author
+      ));
     } else {
-      echo json_encode(
-        array('message' => 'Author Not Updated')
-      );
+        echo json_encode(
+            array('message' => 'Author Not Updated')
+        );
     }
   } else {
     echo json_encode(
-      array('message' => 'Missing required data')
+        array('message' => 'Missing Required Parameters')
     );
   }
 ?>
