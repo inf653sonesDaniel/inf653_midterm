@@ -97,50 +97,52 @@
     public function update() {
       // First, check if the author with the given id exists
       $query = 'SELECT id FROM ' . $this->table . ' WHERE id = :id LIMIT 1';
-      
+
       // Prepare the statement
       $stmt = $this->conn->prepare($query);
-      
+
       // Clean data
       $this->id = htmlspecialchars(strip_tags($this->id));
 
       // Bind the id
       $stmt->bindParam(':id', $this->id);
-      
+
       // Execute the query
       $stmt->execute();
 
       // Check if the id exists
       if ($stmt->rowCount() > 0) {
-        // ID exists, proceed with the update
+          // ID exists, proceed with the update
 
-        // Create Update Query
-        $query = 'UPDATE ' . $this->table . '
-                  SET author = :author
-                  WHERE id = :id';
+          // Create Update Query
+          $query = 'UPDATE ' . $this->table . '
+                    SET author = :author
+                    WHERE id = :id';
 
-        // Prepare the statement
-        $stmt = $this->conn->prepare($query);
+          // Prepare the statement
+          $stmt = $this->conn->prepare($query);
 
-        // Clean data
-        $this->author = htmlspecialchars(strip_tags($this->author));
+          // Clean data
+          $this->author = htmlspecialchars(strip_tags($this->author));
 
-        // Bind data
-        $stmt->bindParam(':author', $this->author);
-        $stmt->bindParam(':id', $this->id);
+          // Bind data
+          $stmt->bindParam(':author', $this->author);
+          $stmt->bindParam(':id', $this->id);
 
-        // Execute the update query
-        if ($stmt->execute()) {
-          $this->read_single();  // Retrieve the updated author data
-            return true;
-        } else {
-            return false;
-        }
+          // Execute the update query
+          if ($stmt->execute()) {
+              // If update is successful, fetch the updated author
+              return $this->read_single();  // Return the updated author object
+          } else {
+              // Something went wrong during the update
+              return false;
+          }
       } else {
-          // ID does not exist
+          // ID does not exist, return false
           return false;
       }
     }
+
 
     // Delete author
     public function delete() {
