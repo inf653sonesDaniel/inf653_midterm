@@ -22,22 +22,28 @@
     exit();  // Exit if any required data is missing
   }
 
-  // Set ID and category for update
+  // Set properties for update
   $category->id = $data->id;
   $category->category = $data->category;
 
   // Attempt to update the category
-  $updated_category = $category->update();
+  if($category->update()) {
+    // After update, fetch the updated category
+    $updated_category = $category->read_single();
 
-  // Check if the update was successful
-  if (isset($updated_category['message'])) {
-      // If update fails, return an error message
-      echo json_encode($updated_category);
+    // If the update was successful, return the updated data
+    if ($updated_category) {
+        echo json_encode(
+            array(
+                'id' => $updated_category->id,
+                'category' => $updated_category->category
+            )
+        );
+    } else {
+        echo json_encode(array('message' => 'Failed to fetch updated category.'));
+    }
   } else {
-      // If the update is successful, return the updated category as a JSON object
-      echo json_encode(array(
-          'id' => $updated_category->id,
-          'category' => $updated_category->category
-      ));
+      // If update fails, return a message
+      echo json_encode(array('message' => 'Failed to update the category'));
   }
 ?>

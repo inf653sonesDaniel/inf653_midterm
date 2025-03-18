@@ -119,11 +119,9 @@
 
       // Execute the query
       if ($stmt->execute()) {
-          // If update is successful, fetch the updated category
-          return $this->read_single();  // Return the updated category object
+          return true;
       } else {
-          // If the update fails, return an error message
-          return array('message' => 'Failed to update the category');
+          return false;
       }
     }
 
