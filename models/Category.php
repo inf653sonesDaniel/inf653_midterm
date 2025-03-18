@@ -97,27 +97,36 @@
     // Update category
     public function update() {
       // First, check if the category with the given id exists
-      $query = 'SELECT id FROM ' . $this->table . ' WHERE id = :id LIMIT 1';
-      
+      if (!$this->categoryExists()) {
+          return array('message' => 'Category does not exist');  // Return error if category does not exist
+      }
+
+      // Prepare update query
       $query = 'UPDATE ' . $this->table . ' 
-                      SET category = :category, category_id = :category_id
-                      WHERE id = :id';
+                SET category = :category
+                WHERE id = :id';
 
       // Prepare the statement
       $stmt = $this->conn->prepare($query);
-      
+
       // Clean data
+      $this->category = htmlspecialchars(strip_tags($this->category));
       $this->id = htmlspecialchars(strip_tags($this->id));
 
-      // Bind the id
+      // Bind data
+      $stmt->bindParam(':category', $this->category);
       $stmt->bindParam(':id', $this->id);
-      
+
       // Execute the query
       if ($stmt->execute()) {
-        return true;
+          // If update is successful, fetch the updated category
+          return $this->read_single();  // Return the updated category object
+      } else {
+          // If the update fails, return an error message
+          return array('message' => 'Failed to update the category');
       }
-      return false;
     }
+
 
     // Delete category
     public function delete() {
