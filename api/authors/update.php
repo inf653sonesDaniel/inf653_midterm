@@ -27,17 +27,17 @@
     $author->author = $data->author;
 
     // Attempt to update the author
-    $updated_author = $author->update();
+    if($author->update()) {
+        $updated_author = $author->read_single();
 
-    // Check if the update was successful
-    if (isset($updated_author['message'])) {
-        // If update fails, return an error message
-        echo json_encode($updated_author);
-    } else {
-        // If the update is successful, return the updated author as a JSON object
-        echo json_encode(array(
-            'id' => $updated_author->id,
-            'author' => $updated_author->author
+        // Return the updated author as a JSON object
+        echo json_encode(
+            array(
+                'id' => $updated_author->id,
+                'author' => $updated_author->author
         ));
+    } else {
+        // If update fails, return a message
+        echo json_encode(array('message' => 'Failed to update the quote'));
     }
 ?>

@@ -118,18 +118,9 @@
   
       // Execute the query
       if ($stmt->execute()) {
-          // Add a debug log to confirm the execution of the update
-          echo "Update successful for author with id: " . $this->id . "\n";
-  
-          // If update is successful, fetch the updated author
-          return $this->read_single();  // Return the updated author object
-      } else {
-          // Add a debug log to confirm if the update failed
-          echo "Failed to update author with id: " . $this->id . "\n";
-          
-          // If the update fails, return an error message
-          return array('message' => 'Failed to update the author');
+        return true;
       }
+      return false;
     }
 
     // Delete author
