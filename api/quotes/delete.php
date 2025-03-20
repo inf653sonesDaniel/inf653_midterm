@@ -1,7 +1,7 @@
 <?php
     // Set content type to JSON
     header('Content-Type: application/json');
-    error_reporting(E_ALL & ~E_DEPRECATED & ~E_NOTICE);  // Suppress deprecated and notice warnings
+    error_reporting(E_ALL & ~E_DEPRECATED & ~E_NOTICE);
 
     // Include necessary files and handle the request
     include_once '../../config/Database.php';

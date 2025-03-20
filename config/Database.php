@@ -14,6 +14,7 @@
       $this->password = getenv('PASSWORD');
       $this->db_name = getenv('DBNAME');
       $this->host = getenv('HOST');
+      # port variable needed for local testing
       #$this->port = getenv('PORT');
     }
 

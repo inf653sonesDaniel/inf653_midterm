@@ -1,7 +1,7 @@
 <?php
   // Set content type to JSON
   header('Content-Type: application/json');
-  error_reporting(E_ALL & ~E_DEPRECATED & ~E_NOTICE);  // Suppress deprecated and notice warnings
+  error_reporting(E_ALL & ~E_DEPRECATED & ~E_NOTICE);
 
   include_once '../../config/Database.php';
   include_once '../../models/Author.php';
@@ -25,8 +25,8 @@
       // Return the response with the id of the newly created author
       echo json_encode(
         array(
-          'id' => $author->id,      // Author's ID (auto-incremented)
-          'author' => $author->author  // The author's name
+          'id' => $author->id,
+          'author' => $author->author
         )
       );
     } else {

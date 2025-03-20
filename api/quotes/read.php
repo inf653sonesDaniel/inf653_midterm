@@ -1,7 +1,7 @@
 <?php
     // Set content type to JSON
     header('Content-Type: application/json');
-    error_reporting(E_ALL & ~E_DEPRECATED & ~E_NOTICE);  // Suppress deprecated and notice warnings
+    error_reporting(E_ALL & ~E_DEPRECATED & ~E_NOTICE);
 
     include_once '../../config/Database.php';
     include_once '../../models/Quote.php';
@@ -36,8 +36,8 @@
             $quote_item = array(
                 'id' => $id,
                 'quote' => $quote,
-                'author' => $author_name,  // Assuming author_name is available in the data
-                'category' => $category_name  // Assuming category_name is available in the data
+                'author' => $author_name,
+                'category' => $category_name
             );
             // Push each quote item to the quotes array directly
             array_push($quotes_arr, $quote_item);

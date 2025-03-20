@@ -1,10 +1,10 @@
 <?php
   // Set content type to JSON
   header('Content-Type: application/json');
-  error_reporting(E_ALL & ~E_DEPRECATED & ~E_NOTICE);  // Suppress deprecated and notice warnings
+  error_reporting(E_ALL & ~E_DEPRECATED & ~E_NOTICE);
 
   include_once '../../config/Database.php';
-  include_once '../../models/Category.php';  // Assuming you have a Category model
+  include_once '../../models/Category.php';
 
   // Instantiate DB & connect
   $database = new Database();
@@ -15,7 +15,7 @@
 
   // Check if 'id' is passed in the query string
   if (isset($_GET['id'])) {
-    $category->id = $_GET['id'];  // Set the category ID from the query parameter
+    $category->id = $_GET['id'];
   } else {
     // If no ID is provided, return an error message
     echo json_encode(array('message' => 'Category ID is required'));
@@ -30,8 +30,8 @@
     // Return the category data as a single JSON object
     echo json_encode(
       array(
-        'id' => $category->id,       // Use the property from the object
-        'category' => $category->category  // Use the property from the object
+        'id' => $category->id,
+        'category' => $category->category
       )
     );
   } else {

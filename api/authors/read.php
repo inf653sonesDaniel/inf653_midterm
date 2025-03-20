@@ -1,7 +1,7 @@
 <?php
   // Set content type to JSON
   header('Content-Type: application/json');
-  error_reporting(E_ALL & ~E_DEPRECATED & ~E_NOTICE);  // Suppress deprecated and notice warnings
+  error_reporting(E_ALL & ~E_DEPRECATED & ~E_NOTICE);
 
   include_once '../../config/Database.php';
   include_once '../../models/Author.php';
@@ -28,7 +28,7 @@
     if ($result) {
       // Return the single author's data as a JSON object
       echo json_encode(array(
-        'id' => $author->id,    // Use the object properties
+        'id' => $author->id,
         'author' => $author->author
       ));
     } else {
@@ -51,8 +51,8 @@
 
         // Create the author item
         $author_item = array(
-          'id' => $id,           // Field 'id'
-          'author' => $author    // Field 'author'
+          'id' => $id,
+          'author' => $author
         );
 
         // Push the current author to the authors array

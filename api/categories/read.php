@@ -1,10 +1,10 @@
 <?php
 // Set content type to JSON
 header('Content-Type: application/json');
-error_reporting(E_ALL & ~E_DEPRECATED & ~E_NOTICE);  // Suppress deprecated and notice warnings
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_NOTICE);
 
 include_once '../../config/Database.php';
-include_once '../../models/Category.php';  // Ensure the correct file path for Category model
+include_once '../../models/Category.php';
 
 // Instantiate DB & connect
 $database = new Database();
@@ -28,7 +28,7 @@ if (isset($query_params['id'])) {
     if ($result) {
         // Return the single category's data as a JSON object
         echo json_encode(array(
-            'id' => $category->id,    // Use the object properties
+            'id' => $category->id,
             'category' => $category->category
         ));
     } else {
@@ -51,8 +51,8 @@ if (isset($query_params['id'])) {
 
             // Create the category item
             $category_item = array(
-                'id' => $id,           // Field 'id'
-                'category' => $category    // Field 'category'
+                'id' => $id,
+                'category' => $category
             );
 
             // Push the current category to the categories array

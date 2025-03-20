@@ -1,3 +1,7 @@
+/*
+Establish authors table, consisting of:
+an auto incremented id & author
+*/
 CREATE TABLE if NOT EXISTS authors (
     id SERIAL PRIMARY KEY,
     author varchar(50) NOT NULL
@@ -22,6 +26,10 @@ VALUES
     ('Nicholas Sparks'),
     ('Julia Quinn');
 
+/*
+Establish categories table, consisting of:
+an auto incremented id & category
+*/
 CREATE TABLE if NOT EXISTS categories (
     id SERIAL PRIMARY KEY,
     category varchar(50) NOT NULL
@@ -35,7 +43,10 @@ VALUES
     ('Horror'),
     ('Romance');
 
-
+/*
+Establish quotes table, consisting of:
+an auto incremented id, quote, author_id (fk), & category_id (fk)
+*/
 CREATE TABLE if NOT EXISTS quotes (
     id SERIAL PRIMARY KEY,
     quote TEXT NOT NULL,

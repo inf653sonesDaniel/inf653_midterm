@@ -1,7 +1,7 @@
 <?php
   // Set content type to JSON
   header('Content-Type: application/json');
-  error_reporting(E_ALL & ~E_DEPRECATED & ~E_NOTICE);  // Suppress deprecated and notice warnings
+  error_reporting(E_ALL & ~E_DEPRECATED & ~E_NOTICE);
 
   include_once '../../config/Database.php';
   include_once '../../models/Category.php';
@@ -26,8 +26,8 @@
       // Return the response with the id of the newly created category
       echo json_encode(
         array(
-          'id' => $category->id,            // Category's ID (auto-incremented)
-          'category' => $category->category  // The category's name
+          'id' => $category->id,
+          'category' => $category->category
         )
       );
     } else {

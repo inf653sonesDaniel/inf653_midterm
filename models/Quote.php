@@ -135,8 +135,8 @@
             $query = 'SELECT 
                         quotes.id,
                         quotes.quote,
-                        authors.author AS author_name,  -- Correct column for author
-                        categories.category AS category_name  -- Correct column for category
+                        authors.author AS author_name,
+                        categories.category AS category_name
                       FROM ' . $this->table . ' 
                       LEFT JOIN authors ON quotes.author_id = authors.id
                       LEFT JOIN categories ON quotes.category_id = categories.id
@@ -154,7 +154,6 @@
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
         
             if ($row) {
-                // Populate the class properties with fetched data
                 $this->quote = $row['quote'];
                 $this->author_name = $row['author_name'];
                 $this->category_name = $row['category_name'];

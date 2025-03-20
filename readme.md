@@ -17,14 +17,14 @@
 ----------------------------------------------
 # Author:
 - create:
-    POST - URL: /api/authors/create.php
+    POST - URL: /api/authors/
 
     Body -  {
                 "author": "New Author"
             }
 
 - update:
-    PUT - URL: api/authors/update.php
+    PUT - URL: api/authors/
 
     Body -  {
                 "id": "1",
@@ -32,29 +32,29 @@
             }
 
 - delete:
-    DEL - URL: api/authors/delete.php
+    DEL - URL: api/authors/
 
     Body -  {
                 "id": "1"
             }
 
 - read:
-    GET - URL: api/authors/read.php
+    GET - URL: api/authors/
 
 - read_single:
-    GET - URL: api/authors/read_single.php?id=1
+    GET - URL: api/authors/?id=1
 
 
 # Categories:
 - create:
-    POST - URL: /api/categories/create.php
+    POST - URL: /api/categories/
 
     Body -  {
                 "category": "New category"
             }
 
 - update:
-    PUT - URL: api/categories/update.php
+    PUT - URL: api/categories/
 
     Body -  {
                 "id": "1",
@@ -62,22 +62,22 @@
             }
 
 - delete:
-    DEL - URL: api/categories/delete.php
+    DEL - URL: api/categories/
 
     Body -  {
                 "id": "1"
             }
 
 - read:
-    GET - URL: api/categories/read.php
+    GET - URL: api/categories/
 
 - read_single:
-    GET - URL: api/categories/read_single.php?id=1
+    GET - URL: api/categories/?id=1
 
 
 # Quotes:
 - create:
-    POST - URL: /api/quotes/create.php
+    POST - URL: /api/quotes/
 
     Body -  {
                 "quote": "This is a new quote",
@@ -86,7 +86,7 @@
             }
 
 - update:
-    PUT - URL: api/quotes/update.php
+    PUT - URL: api/quotes/
 
     Body -  {
                 "quote": "This is an updated quote",
@@ -95,20 +95,20 @@
             }
 
 - delete:
-    DEL - URL: api/quotes/delete.php
+    DEL - URL: api/quotes/
 
     Body -  {
                 "id": "1"
             }
 
 - read:
-    GET - URL: api/quotes/read.php
+    GET - URL: api/quotes/
 
-    GET - URL: api/quotes/read.php?author_id=1
+    GET - URL: api/quotes/?author_id=1
 
-    GET - URL: api/quotes/read.php?category_id=1
+    GET - URL: api/quotes/?category_id=1
 
-    GET - URL: api/quotes/read.php?author_id=1&category_id=1
+    GET - URL: api/quotes/?author_id=1&category_id=1
 
 - read_single:
-    GET - URL: api/quotes/read_single.php?id=1
+    GET - URL: api/quotes/?id=1
