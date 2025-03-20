@@ -1,3 +1,7 @@
+# Author:   Daniel Sones
+# Date:     March 20, 2025
+# Subject:  INF 653 Midterm ~ (RESTFUL API)
+
 # This repository consists of an api folder containing folders for each of our DB's tables:
     - authors, categories, and quotes
 
